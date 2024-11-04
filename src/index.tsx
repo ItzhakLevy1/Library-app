@@ -5,7 +5,6 @@ import "./index.css";
 
 const rootElement = document.getElementById("root");
 
-// Check if rootElement is non-null before passing it to createRoot
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement as HTMLElement);
   root.render(
