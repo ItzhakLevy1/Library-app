@@ -4,19 +4,50 @@ import { useEffect, useState } from "react";
 import BookModel from "../../../models/BookModel";
 
 export const Carousel = () => {
-
   const [books, setBooks] = useState<BookModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
 
   useEffect(() => {
     const fetchBooks = async () => {
+      const baseUrl: string = "http://localhost:8080/api/books";
 
+      const url: string = `${baseUrl}?page=0&size=9`; // Make sure to limit the data to 9 books on each page
+
+      const response = await fetch(url); // The response data from the api call
+
+      if (!response.ok) {
+        // Handle response errors
+        throw new Error("Something went wrong!");
+      }
+
+      const responseJson = await response.json(); // Turnning the response into a json format
+
+      const responseData = responseJson._embeded.books; // Grab the data from the responseJson by Accessing the _embeded.books
+
+      const loadedBooks: BookModel[] = []; // Initialize an loadedBooks const of type BookModel array as an empty array
+
+      for (const key in responseData) {
+        loadedBooks.push({
+          id: responseData[key].id,
+          title: responseData[key].title,
+          author: responseData[key].author,
+          description: responseData[key].description,
+          copies: responseData[key].copies,
+          copiesAvailable: responseData[key].copiesAvailable,
+          category: responseData[key].category,
+          img: responseData[key].img,
+        });
+      }
+
+      setBooks(loadedBooks);
+      setIsLoading(false);
     };
-    fetchBooks().catch((error: any) => {  // Handle errors
+    fetchBooks().catch((error: any) => {
+      // Handle errors
       setIsLoading(false);
       setHttpError(error.message);
-    })
+    });
   }, []);
 
   return (

@@ -1,6 +1,6 @@
 class BookModel {
   id: number;
-  titls: string;
+  title: string;
   author: string;
   description: string;
   copies: number;
@@ -10,7 +10,7 @@ class BookModel {
 
   constructor(
     id: number,
-    titls: string,
+    title: string,
     author: string,
     description: string,
     copies: number,
@@ -19,7 +19,7 @@ class BookModel {
     img?: string
   ) {
     this.id = id;
-    this.titls = titls;
+    this.title = title;
     this.author = author;
     this.description = description;
     this.copies = copies;
